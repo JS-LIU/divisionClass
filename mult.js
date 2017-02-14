@@ -46,14 +46,47 @@ class Mult{
     getLen(x){
         return x.length;
     }
+    combineNumber(result,x){
+        return result + x;
+    }
+    reversalStr(x){
+        return x.split("").reverse().join("");
+    }
+
+    paddingZero(x,time){
+        var str = "";
+        for(var i = 0;i < time ;i++){
+            i+='0';
+        }
+        return x + i;
+    }
+
     getResult(x,y){
         var result = "";
         var xLen = this.getLen(x);
         var yLen = this.getLen(y);
-        for(var i = xLen;i >=0 ;i--){
-            this.getOneResult(getMult(x,i),getMult(y,yLen));
 
+        for(var j = yLen;j >=0;j--){
+            var time = 0;
+
+            for(var i = xLen;i >=0 ;i--){
+                result = this.combineNumber(
+                    result,
+                    this.getOneResult(
+                        this.getMult(x,i),
+                        this.getMult(y,j)
+                    )
+                );
+
+                var carry = this.carry.toString();
+                result += (carry == "0"?"":carry);
+                var addend = result.split('').reverse().join("");
+                addend = this.paddingZero(result,time);
+            }
+            result = add(result,addend);
+            time++;
         }
+        return result;
         // this.carry = this.carry.toString();
         // result = result + this.carry;
         // result = result.split('').reverse().join("");
