@@ -9,7 +9,7 @@
  *
  */
 
-
+// var Add = require('./add.js');
 
 class Mult{
     constructor(){
@@ -63,13 +63,13 @@ class Mult{
 
     getResult(x,y){
         var result = "";
-        var xLen = this.getLen(x);
-        var yLen = this.getLen(y);
+        var xStart = this.getLen(x) - 1;
+        var yStart = this.getLen(y) - 1;
 
-        for(var j = yLen;j >=0;j--){
+        for(var j = yStart;j >=0;j--){
             var time = 0;
 
-            for(var i = xLen;i >=0 ;i--){
+            for(var i = xStart;i >=0 ;i--){
                 result = this.combineNumber(
                     result,
                     this.getOneResult(
@@ -83,7 +83,8 @@ class Mult{
                 var addend = result.split('').reverse().join("");
                 addend = this.paddingZero(result,time);
             }
-            result = add(result,addend);
+            var add = new Add();
+            result = add.getResult(result,addend);
             time++;
         }
         return result;
