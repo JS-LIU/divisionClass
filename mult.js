@@ -32,11 +32,8 @@ class Mult{
     }
 
     getOneResult(x,y){
-        var mult = this.getMult(x,i);
 
-        var multed = this.getMulted(y,i);
-
-        var product =  mult * multed;
+        var product =  x * y;
 
         var remain = this.getRemain(product);
         remain += this.carry;

@@ -17,7 +17,7 @@ class Add{
         var result = x + y + this.carry;
         var remain = this.getRemain(result);
         this.carry = this.getCarry(result);
-
+ww
         return remain.toString();
     }
     combineNumber(result,x){
