@@ -2,19 +2,38 @@
  * Created by LDQ on 2017/2/16.
  */
 class Calclib{
-    static getLen(x){
+    getLen(x){
         return x.length;
     }
 
-    static getOneStr2Int(x,i){
+    getOneStr2Int(x,i){
         let str_x = x[i] || '0';
         return parseInt(str_x);
     }
-    static getRemain(x){
+    getRemain(x){
         return x % 10;
     }
-    static getCarry(x){
+    getCarry(x){
         return parseInt(x/10);
+    }
+    combineNumber(result,x){
+        return result + x;
+    }
+    paddingZero(x,time){
+        let str = "";
+        for(let i = 0;i < time ;i++){
+            str+='0';
+        }
+        return x + str;
+    }
+
+    exchangeSite(x,y){
+        let a = (x.length >= y.length?x : y);
+        let b = (a === x ? y : x);
+        return [a,b];
+    }
+    reversalStr(x){
+        return x.split("").reverse().join("");
     }
 }
 

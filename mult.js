@@ -9,86 +9,53 @@
  *
  */
 
-// var Add = require('./add.js');
+var Calclib = require('./calclib');
+var Add = require('./add');
 
-class Mult{
+class Mult extends Calclib{
     constructor(){
+        super();
         this.carry = 0;
-    }
-
-    //  乘数
-    getMult(x,i){
-        return parseInt(x[i]);
-    }
-
-    //  取余（）
-    getRemain(x){
-        return x % 10;
-    }
-
-    //  取进位
-    getCarry(x){
-        return parseInt(x / 10);
     }
 
     getOneResult(x,y){
 
-        var product =  x * y;
+        let product =  x * y;
 
-        var remain = this.getRemain(product);
+        let remain = super.getRemain(product);
         remain += this.carry;
-        this.carry = this.getCarry(product);
+        this.carry = super.getCarry(product);
         return remain.toString();
-    }
-    getLen(x){
-        return x.length;
-    }
-    combineNumber(result,x){
-        return result + x;
-    }
-    reversalStr(x){
-        return x.split("").reverse().join("");
-    }
-
-    paddingZero(x,time){
-        var str = "";
-        for(var i = 0;i < time ;i++){
-            i+='0';
-        }
-        return x + i;
     }
 
     getResult(x,y){
-        var result = "";
-        var xStart = this.getLen(x) - 1;
-        var yStart = this.getLen(y) - 1;
-
-        for(var j = yStart;j >=0;j--){
-            var time = 0;
-
-            for(var i = xStart;i >=0 ;i--){
-                result = this.combineNumber(
-                    result,
-                    this.getOneResult(
-                        this.getMult(x,i),
-                        this.getMult(y,j)
-                    )
+        let lastResult = "0";
+        let yStart = super.getLen(y) - 1;
+        let xStart = super.getLen(x) - 1;
+        let add = new Add();
+        let time = 0;
+        for(let j = yStart;j >=0;j--){
+            let addend = "0";
+            let preResult = "";
+            let myY = super.getOneStr2Int(y,j);
+            for(let i = xStart;i >=0 ;i--){
+                let myX = super.getOneStr2Int(x,i);
+                let oneR = this.getOneResult(myX, myY);
+                preResult = super.combineNumber(
+                    oneR,
+                    preResult
                 );
-
-                var carry = this.carry.toString();
-                result += (carry == "0"?"":carry);
-                var addend = result.split('').reverse().join("");
-                addend = this.paddingZero(result,time);
             }
-            var add = new Add();
-            result = add.getResult(result,addend);
+            let carry = this.carry.toString();
+            preResult = ((carry === "0"?"":carry) + preResult);
+            this.carry = 0;
+            addend = super.paddingZero(preResult,time);
+            lastResult = add.getResult(lastResult,addend);
             time++;
         }
-        return result;
-        // this.carry = this.carry.toString();
-        // result = result + this.carry;
-        // result = result.split('').reverse().join("");
-        // return result;
+        return lastResult;
     }
 
 }
+
+module.exports = Mult;
