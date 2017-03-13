@@ -27,25 +27,32 @@ class Mult extends Calclib{
         this.carry = super.getCarry(product);
         return remain.toString();
     }
+    getPreResult(x,y){
+        let xStart = super.getLen(x) - 1;
+        let preResult = "";
+        for(let i = xStart;i >=0 ;i--){
+            let myX = super.getOneStr2Int(x,i);
+            let oneR = this.getOneResult(myX, y);
+            preResult = super.combineNumber(
+                oneR,
+                preResult
+            );
+        }
+        return preResult;
+    }
 
     getResult(x,y){
         let lastResult = "0";
         let yStart = super.getLen(y) - 1;
-        let xStart = super.getLen(x) - 1;
+
         let add = new Add();
         let time = 0;
         for(let j = yStart;j >=0;j--){
             let addend = "0";
-            let preResult = "";
             let myY = super.getOneStr2Int(y,j);
-            for(let i = xStart;i >=0 ;i--){
-                let myX = super.getOneStr2Int(x,i);
-                let oneR = this.getOneResult(myX, myY);
-                preResult = super.combineNumber(
-                    oneR,
-                    preResult
-                );
-            }
+
+            let preResult = this.getPreResult(x,myY);
+
             let carry = this.carry.toString();
             preResult = ((carry === "0"?"":carry) + preResult);
             this.carry = 0;
